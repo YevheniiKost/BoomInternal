@@ -1,12 +1,10 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "TP_WeaponComponent.generated.h"
 
-class ABoomInternalCharacter;
+class ABoomCharacter;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BOOMINTERNAL_API UTP_WeaponComponent : public USkeletalMeshComponent
@@ -43,7 +41,7 @@ public:
 
 	/** Attaches the actor to a FirstPersonCharacter */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
-	void AttachWeapon(ABoomInternalCharacter* TargetCharacter);
+	void AttachWeapon(ABoomCharacter* TargetCharacter);
 
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
@@ -56,5 +54,5 @@ protected:
 
 private:
 	/** The Character holding this weapon*/
-	ABoomInternalCharacter* Character;
+	ABoomCharacter* Character;
 };

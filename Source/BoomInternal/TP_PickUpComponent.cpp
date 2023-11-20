@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TP_PickUpComponent.h"
+#include "PlayerCharacter/BoomCharacter.h"
 
 UTP_PickUpComponent::UTP_PickUpComponent()
 {
@@ -19,7 +20,7 @@ void UTP_PickUpComponent::BeginPlay()
 void UTP_PickUpComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	// Checking if it is a First Person Character overlapping
-	ABoomInternalCharacter* Character = Cast<ABoomInternalCharacter>(OtherActor);
+	ABoomCharacter* Character = Cast<ABoomCharacter>(OtherActor);
 	if(Character != nullptr)
 	{
 		// Notify that the actor is being picked up

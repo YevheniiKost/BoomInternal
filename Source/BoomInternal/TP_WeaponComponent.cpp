@@ -2,13 +2,13 @@
 
 
 #include "TP_WeaponComponent.h"
-#include "BoomInternalCharacter.h"
 #include "BoomInternalProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "PlayerCharacter/BoomCharacter.h"
 
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
@@ -63,7 +63,7 @@ void UTP_WeaponComponent::Fire()
 	}
 }
 
-void UTP_WeaponComponent::AttachWeapon(ABoomInternalCharacter* TargetCharacter)
+void UTP_WeaponComponent::AttachWeapon(ABoomCharacter* TargetCharacter)
 {
 	Character = TargetCharacter;
 
