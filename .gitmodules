@@ -1,0 +1,3 @@
+[submodule "Plugins/UEStateMachine"]
+	path = Plugins/UEStateMachine
+	url = https://github.com/YevheniiKost/UEStateMachine.git
