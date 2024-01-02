@@ -10,6 +10,8 @@ public class PlayerMovement : ModuleRules
             new string[]
             {
                 "Core",
+                "CharacterInterfaces",
+                "CustomStateMachine",
             }
         );
 
@@ -19,7 +21,7 @@ public class PlayerMovement : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore" 
             }
         );
     }

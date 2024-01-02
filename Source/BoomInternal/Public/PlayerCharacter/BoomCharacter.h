@@ -1,45 +1,41 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
+#include "PlayerMovement/Interfaces/MovementComponentHolder.h"
+
 #include "CoreMinimal.h"
+#include "AnimationHandler.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "BoomCharacter.generated.h"
 
+struct FInputActionValue;
+
+class UBoomWeaponComponent;
+class UStateManagerComponent;
+class UBoomAnimationComponent;
+class UBoomMovementComponent;
+class ABoomInternalPlayerController;
 class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
-struct FInputActionValue;
+class UCharacterInputComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ABoomCharacter : public ACharacter
+class ABoomCharacter : public ACharacter, public IMovementComponentHolder, public IAnimationHandler
 {
 	GENERATED_BODY()
-
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
-	USkeletalMeshComponent* Mesh1P;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputMappingContext* DefaultMappingContext;
-	
 public:
 	ABoomCharacter();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:
-		
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bHasRifle;
+
+	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	void SetHasRifle(bool bNewHasRifle);
@@ -47,15 +43,44 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
 
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-	virtual void Jump() override;
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+	UBoomWeaponComponent* GetWeaponComponent();
+
+	virtual UBoomMovementComponent* GetBoomMovementComponent() override { return MovementComponent; }
+	virtual void PlayMontageSection(UAnimMontage* MontageToPlay, float PlayDuration, FName StartSectionName) override;
 
 protected:
-	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input)
+	TObjectPtr<UCharacterInputComponent> CharacterInputComponent;
 
-public:
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
-	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
+    TObjectPtr<UBoomMovementComponent> MovementComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
+	TObjectPtr<UBoomAnimationComponent> AnimationComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
+	TObjectPtr<UStateManagerComponent> MovementStateManagerComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
+	TObjectPtr<UBoomWeaponComponent> WeaponComponent;
+	
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	TObjectPtr<USkeletalMeshComponent> Mesh1P;
+
+	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraComponent> FirstPersonCameraComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float DashVelocity = 1000.f;
+	
+	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
+	virtual void BeginPlay() override;
 };
 

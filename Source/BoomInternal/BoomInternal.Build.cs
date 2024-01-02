@@ -6,8 +6,21 @@ public class BoomInternal : ModuleRules
 {
 	public BoomInternal(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PrivateDependencyModuleNames.AddRange(new string[] { "PlayerMovement" });
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core",
+			"CoreUObject", 
+			"Engine", 
+			"InputCore", 
+			"EnhancedInput", 
+			"PlayerInputController",
+			"PlayerMovement",
+			"CustomStateMachine",
+			"CharacterInterfaces",
+			"Combat"
+		});
 	}
 }

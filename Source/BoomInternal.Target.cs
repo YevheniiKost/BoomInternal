@@ -16,6 +16,6 @@ public class BoomInternalTarget : TargetRules
 
 	private void RegisterModulesCreatedByRider()
 	{
-		ExtraModuleNames.AddRange(new string[] { "PlayerMovement" });
+		ExtraModuleNames.AddRange(new string[] { "PlayerMovement", "PlayerInputController", "CharacterInterfaces", "Combat" });
 	}
 }
